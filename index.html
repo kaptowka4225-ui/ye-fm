@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YE FM — Kanye West Discography</title>
+<style>
+:root{--bg:#090b0a;--panel:#121613;--panel2:#1a211c;--green:#1ed760;--muted:#a7b0a9;--white:#f4f7f4}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--white);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Arial}
+button,input{font:inherit}button{cursor:pointer;border:0}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh;gap:8px;padding:8px}
+.sidebar,.main{background:var(--panel);border-radius:12px}.sidebar{padding:24px 16px;display:flex;flex-direction:column;gap:28px}
+.logo{font-weight:950;letter-spacing:-1.5px;font-size:25px}.logo span{color:var(--green)}
+.nav{display:grid;gap:12px}.nav button{background:none;color:var(--muted);text-align:left;padding:9px 10px;border-radius:8px;font-weight:650}.nav button.active,.nav button:hover{color:white;background:var(--panel2)}
+.side-note{margin-top:auto;color:#7f8a82;font-size:12px}
+.main{overflow:hidden;background:linear-gradient(180deg,#263b2b 0,#151b17 290px,#121613 470px)}
+.top{display:flex;align-items:center;gap:12px;padding:20px 28px;position:sticky;top:0;background:#121613d9;backdrop-filter:blur(12px);z-index:2}
+.search{flex:1;max-width:460px;background:#fff;color:#111;border-radius:24px;padding:11px 16px;display:flex;gap:9px;align-items:center}
+.search input{border:0;outline:0;background:transparent;width:100%;color:#111}
+.pill{border-radius:20px;background:#253129;color:#d8e1da;padding:9px 14px;font-weight:700}
+.hero{padding:34px 30px 28px;display:flex;align-items:end;gap:24px}
+.hero-art{width:170px;height:170px;flex:none;border-radius:8px;background:radial-gradient(circle at 30% 25%,#e4d5a3 0 5%,transparent 6%),linear-gradient(145deg,#e2b86d,#68452e 50%,#161c18);display:grid;place-items:center;box-shadow:0 14px 35px #0008}
+.hero-art b{font-size:38px;letter-spacing:-4px;color:#171b16;text-shadow:1px 1px #f5e2b9}
+.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:800}
+h1{font-size:clamp(42px,7vw,76px);line-height:.95;letter-spacing:-4px;margin:9px 0 12px}
+.hero p{color:#d2ddd4;margin:0;max-width:580px}
+.content{padding:0 30px 35px}
+.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:22px 0 14px}
+h2{font-size:22px;letter-spacing:-.5px;margin:0}
+.filters{display:flex;gap:7px;flex-wrap:wrap}
+.filters button{background:#263129;color:#dbe4dd;padding:7px 12px;border-radius:20px;font-size:12px;font-weight:750}
+.filters button.active{background:var(--green);color:#061008}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px}
+.card{background:#1a211c;padding:12px;border-radius:9px;transition:.18s;min-width:0}
+.card:hover{background:#263129;transform:translateY(-3px)}
+.cover{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;text-align:center;padding:10px;position:relative;overflow:hidden;box-shadow:0 8px 20px #0005}
+.cover:before,.cover:after{content:"";position:absolute;border-radius:50%;filter:blur(1px);opacity:.45}
+.cover:before{width:75%;height:75%;border:2px solid #ffffff50;transform:rotate(-25deg)}
+.cover:after{width:35%;height:35%;border:1px solid #ffffff80;transform:translate(35px,28px)}
+.cover strong{z-index:1;font-size:clamp(15px,2vw,22px);line-height:1.05;letter-spacing:-.8px;text-shadow:0 2px 10px #0008}
+.meta{display:flex;justify-content:space-between;gap:6px;align-items:center;margin-top:11px}
+.meta b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.year{font-size:12px;color:var(--muted);margin-top:3px}
+.actions{display:flex;gap:7px;margin-top:10px}
+.play,.heart{border-radius:22px;padding:8px 10px;font-size:12px;font-weight:800}
+.play{background:var(--green);color:#061008;flex:1}.heart{background:#303a32;color:#e6eee8}
+.empty{color:var(--muted);padding:25px 0}
+.footer{border-top:1px solid #ffffff14;margin-top:30px;padding:18px 0;color:#8c978f;font-size:12px}
+.player{position:fixed;bottom:0;left:0;right:0;background:#080a09f2;border-top:1px solid #ffffff20;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:15px;z-index:5}
+.now{display:flex;align-items:center;gap:10px;min-width:0}.mini{width:42px;height:42px;border-radius:5px;display:grid;place-items:center;font-size:11px;font-weight:900;flex:none}
+.now b{display:block;font-size:13px}.now small{color:var(--muted)}
+.player-center{text-align:center;color:var(--muted);font-size:12px}.player-center strong{color:white;display:block;font-size:13px}
+.player button{background:var(--green);color:#061008;border-radius:20px;padding:9px 15px;font-weight:850}
+.spacer{height:76px}
+@media(max-width:720px){.app{grid-template-columns:1fr;padding:0;gap:0}.sidebar{border-radius:0;padding:12px 16px;flex-direction:row;align-items:center;justify-content:space-between}.nav{display:flex;gap:2px}.nav button{font-size:12px;padding:7px}.side-note{display:none}.main{border-radius:0}.top{padding:14px 16px}.hero{padding:24px 18px;gap:15px}.hero-art{width:112px;height:112px}.hero-art b{font-size:28px}.content{padding:0 18px 25px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:9px}.player{padding:9px 12px}.player-center{display:none}}
+
+.modal{display:none;position:fixed;inset:0;background:#000c;z-index:20;align-items:center;justify-content:center;padding:14px}
+.modal.open{display:flex}.modal-box{width:min(760px,100%);max-height:92vh;overflow:auto;background:#121613;border:1px solid #ffffff20;border-radius:14px;padding:18px;box-shadow:0 20px 70px #000b}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.modal-head h2{font-size:24px}.close{background:#2b352e;color:white;border-radius:50%;width:38px;height:38px;font-size:22px}
+.modal-sub{color:var(--muted);font-size:13px;margin:5px 0 14px}
+.spotify-frame{width:100%;height:500px;border:0;border-radius:12px;background:#1b211d}
+.modal-link{display:inline-block;margin-top:12px;background:var(--green);color:#061008;text-decoration:none;padding:10px 15px;border-radius:22px;font-weight:800}
+.card{cursor:pointer}
+@media(max-width:600px){.modal{padding:7px}.modal-box{padding:13px;max-height:96vh}.spotify-frame{height:480px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">YE<span>FM</span></div>
+  <nav class="nav">
+    <button class="active" id="homeBtn">⌂ Главная</button>
+    <button id="allBtn">▦ Все альбомы</button>
+    <button id="favBtn">♡ Избранное</button>
+  </nav>
+  <div class="side-note">Фанатский каталог дискографии Kanye West.<br>Музыка открывается на официальной платформе.</div>
+</aside>
+<main class="main">
+  <div class="top">
+    <div class="search">⌕ <input id="search" placeholder="Найти альбом..." aria-label="Поиск альбомов"></div>
+    <span class="pill">YE ARCHIVE</span>
+  </div>
+  <section class="hero">
+    <div class="hero-art"><b>YE.</b></div>
+    <div><div class="eyebrow">Artist collection · 2004—2026</div><h1>KANYE<br>WEST</h1><p>Альбомы, эпохи и звучание Ye — собраны в одном месте. Выбирай релиз и открывай его в Spotify.</p></div>
+  </section>
+  <section class="content">
+    <div class="section-head"><h2 id="heading">Дискография</h2><div class="filters" id="filters">
+      <button class="active" data-kind="all">Все</button><button data-kind="solo">Сольные</button><button data-kind="collab">Совместные</button><button data-kind="other">Другие</button>
+    </div></div>
+    <div class="grid" id="albums"></div>
+    <div class="footer">YE FM — неофициальный фанатский проект. Названия альбомов и имя исполнителя принадлежат их правообладателям. Обложки здесь заменены оригинальными цветовыми карточками.</div>
+  </section>
+</main>
+</div>
+<div class="spacer"></div>
+<div class="player" style="display:block;padding:8px 14px 10px">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 auto 6px;max-width:900px">
+    <div><b style="font-size:13px">YE FM · Spotify Player</b><div style="font-size:11px;color:#a7b0a9">Выбирай альбом и треки прямо во встроенном плеере</div></div>
+    <a href="https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x" target="_blank" rel="noopener" style="color:#1ed760;font-size:12px;font-weight:800;text-decoration:none">Открыть Spotify ↗</a>
+  </div>
+  <iframe title="Kanye West on Spotify" style="display:block;width:min(900px,100%);height:152px;border:0;border-radius:12px;margin:auto" src="https://open.spotify.com/embed/artist/5K4W6rqBFWDnAN6FQUkS6x?utm_source=generator&theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
+<div class="modal" id="albumModal" role="dialog" aria-modal="true" aria-label="Альбом">
+  <div class="modal-box">
+    <div class="modal-head"><div><div class="eyebrow">YE FM · ALBUM</div><h2 id="modalTitle">Альбом</h2></div><button class="close" id="closeModal" aria-label="Закрыть">×</button></div>
+    <div class="modal-sub" id="modalSub">Kanye West</div>
+    <div id="spotifyEmbed"></div>
+  </div>
+</div>
+<script>
+const albums=[
+["The College Dropout",2004,"solo","#c69b62","#4d3525","THE COLLEGE DROPOUT"],
+["Late Registration",2005,"solo","#9b8c7b","#343a3b","LATE REGISTRATION"],
+["Graduation",2007,"solo","#c8a5d4","#5b3e79","GRADUATION"],
+["808s & Heartbreak",2008,"solo","#9ca9b5","#34404b","808s & HEARTBREAK"],
+["My Beautiful Dark Twisted Fantasy",2010,"solo","#b69b69","#563e32","MY BEAUTIFUL DARK TWISTED FANTASY"],
+["Watch the Throne",2011,"collab","#d6c58a","#4a3b23","WATCH THE THRONE"],
+["Cruel Summer",2012,"other","#d9a56d","#733b25","CRUEL SUMMER"],
+["Yeezus",2013,"solo","#d7d5cc","#4c4c49","YEEZUS"],
+["The Life of Pablo",2016,"solo","#d9a3a0","#6a5550","THE LIFE OF PABLO"],
+["ye",2018,"solo","#a8c5b2","#465e4e","ye"],
+["Kids See Ghosts",2018,"collab","#e5a65f","#653f31","KIDS SEE GHOSTS"],
+["Jesus Is King",2019,"solo","#a5b9d2","#35465f","JESUS IS KING"],
+["Donda",2021,"solo","#8d9290","#252a28","DONDA"],
+["Donda 2",2022,"solo","#b8a5a0","#5b3e3b","DONDA 2"],
+["Vultures 1",2024,"collab","#b6b3a8","#514b45","VULTURES 1"],
+["Vultures 2",2024,"collab","#a9aaa6","#3d4540","VULTURES 2"],
+["Bully",2026,"solo","#c5a77c","#4c3327","BULLY"]
+].map((a,i)=>({id:i,title:a[0],year:a[1],kind:a[2],c1:a[3],c2:a[4],cover:a[5]}));
+const spotifyAlbums={
+"The College Dropout":"4Uv86qWpGTxf7fU7lG5X6F",
+"Late Registration":"4GRDFQ9HRoO0by8H0r2a3I",
+"Graduation":"6V0srAdQfEIarFvIxAYilH",
+"808s & Heartbreak":"3WFTGIO6E3Xh4paEOBY9OU",
+"My Beautiful Dark Twisted Fantasy":"20r762YmB5HeofjMCiPMLv",
+"Watch the Throne":"0OcMap99vLEeGkBCfCwRwS",
+"Yeezus":"7D2NdGvBHIavgLhmcwhluK",
+"The Life of Pablo":"7u6Q36bDPiNegcQ7u69bKq",
+"Jesus Is King":"0FgZKfoU2Br5sHOfvZKTI9",
+"Donda":"5CnpZV3q5BcESefcB3WJmz",
+"Donda 2":"0k7oanYS9dXYWLXaFOYxJ8",
+"Vultures 1":"4DOsPwJtokv6HEifZ6t5j6"
+};
+let kind="all",favorites=new Set(),current=null,mode="all";
+const grid=document.getElementById("albums"),search=document.getElementById("search");
+
+function spotifyUrl(title){return "https://open.spotify.com/search/"+encodeURIComponent("Kanye West "+title)}
+function openAlbum(a){
+ document.getElementById("modalTitle").textContent=a.title;
+ document.getElementById("modalSub").textContent="Kanye West · "+a.year+" · Полный список треков и воспроизведение через Spotify";
+ const id=spotifyAlbums[a.title];
+ const holder=document.getElementById("spotifyEmbed");
+ if(id){
+  holder.innerHTML=`<iframe class="spotify-frame" title="Spotify: ${a.title}" src="https://open.spotify.com/embed/album/${id}?utm_source=generator&theme=0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+ }else{
+  holder.innerHTML=`<div style="padding:22px;background:#1b211d;border-radius:12px;color:#dce5de">Для этого релиза встроенный список Spotify пока не подключён. Открой релиз в Spotify, чтобы увидеть все песни и слушать их.</div><a class="modal-link" href="${spotifyUrl(a.title)}" target="_blank" rel="noopener">Найти альбом в Spotify ↗</a>`;
+ }
+ document.getElementById("albumModal").classList.add("open");
+ document.body.style.overflow="hidden";
+}
+function render(){
+ const q=search.value.toLowerCase().trim();
+ const shown=albums.filter(a=>(kind==="all"||a.kind===kind)&&(mode!=="fav"||favorites.has(a.id))&&a.title.toLowerCase().includes(q));
+ grid.innerHTML=shown.length?"":"<div class='empty'>Ничего не найдено. Попробуй другое название.</div>";
+ shown.forEach(a=>{
+  const card=document.createElement("article");card.className="card";
+  card.innerHTML=`<div class="cover" style="background:linear-gradient(145deg,${a.c1},${a.c2})"><strong>${a.cover}</strong></div><div class="meta"><b title="${a.title}">${a.title}</b><span>♪</span></div><div class="year">${a.year} · ${a.kind==="solo"?"Сольный":a.kind==="collab"?"Совместный":"Сборник"}</div><div class="actions"><button class="play">Слушать ↗</button><button class="heart" aria-label="В избранное">${favorites.has(a.id)?"♥":"♡"}</button></div>`;
+  card.querySelector(".play").onclick=(e)=>{e.stopPropagation();current=a;openAlbum(a);};
+  card.querySelector(".cover").onclick=()=>openAlbum(a);
+  card.querySelector(".meta").onclick=()=>openAlbum(a);
+  card.querySelector(".heart").onclick=()=>{favorites.has(a.id)?favorites.delete(a.id):favorites.add(a.id);render();};
+  grid.appendChild(card);
+ });
+ document.getElementById("heading").textContent=mode==="fav"?"Избранное":"Дискография";
+}
+document.querySelectorAll("#filters button").forEach(b=>b.onclick=()=>{kind=b.dataset.kind;document.querySelectorAll("#filters button").forEach(x=>x.classList.toggle("active",x===b));render()});
+search.oninput=render;
+document.getElementById("homeBtn").onclick=()=>{mode="all";kind="all";search.value="";document.querySelectorAll("#filters button").forEach((x,i)=>x.classList.toggle("active",i===0));document.getElementById("homeBtn").classList.add("active");document.getElementById("favBtn").classList.remove("active");render()};
+
+document.getElementById("allBtn").onclick=()=>document.getElementById("homeBtn").click();
+function closeAlbum(){document.getElementById("albumModal").classList.remove("open");document.getElementById("spotifyEmbed").innerHTML="";document.body.style.overflow="";}
+document.getElementById("closeModal").onclick=closeAlbum;
+document.getElementById("albumModal").onclick=(e)=>{if(e.target.id==="albumModal")closeAlbum();};
+document.addEventListener("keydown",(e)=>{if(e.key==="Escape")closeAlbum();});
+document.getElementById("favBtn").onclick=()=>{mode="fav";document.getElementById("favBtn").classList.add("active");document.getElementById("homeBtn").classList.remove("active");render()};
+
+render();
+</script>
+</body>
+</html>
